@@ -5,6 +5,7 @@ import { Point } from "./models/point.js";
 import { Rectangle } from "./models/rectangle.js";
 import { Size } from "./models/size.js";
 import { MiddleLine } from "./models/middle-line.js";
+import { Score } from "./models/score.js";
 
 const workspace = document.getElementById('js-alg');
 
@@ -17,13 +18,14 @@ workspace.appendChild(canvas);
 
 const offsetX = 20;
 
-const bat1 = new Bat(new Rectangle(new Point(offsetX, 20), new Size(20, 150)), "#FFF");
+const bat1 = new Bat(new Rectangle(new Point(offsetX, 20), new Size(20, 150)), "#ecf0f1");
 const bat2 = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, 20), new Size(20, 150)), "#FFF");
 
 const ballWidth = 20;
 const ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, canvas.height / 2 - ballWidth / 2), new Size(ballWidth, ballWidth)), "white");
 
-const middleLine = new MiddleLine(canvasSize, "gray");
+const middleLine = new MiddleLine(canvasSize, "#555555");
+const score = new Score(canvasSize, 80, "#555555");
 
 redraw();
 
@@ -35,6 +37,7 @@ function redraw() {
 
 
     middleLine.draw(context);
+    score.draw(context);
     bat1.draw(context);
     bat2.draw(context);
     ball.draw(context);
