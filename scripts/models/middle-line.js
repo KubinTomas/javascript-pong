@@ -16,9 +16,13 @@ export class MiddleLine {
         const lineHeight = 30;
         const lineActualHeight = lineHeight - offsetY;
 
+        console.log(this.canvasSize.height);
+
         const lineCount = Math.floor(this.canvasSize.height / (lineHeight));
         const lineCountSpaceLeft = this.canvasSize.height - (lineCount * lineHeight);
         const additionalYOffset = lineCountSpaceLeft / lineCount;
+
+        console.log(lineCount);
 
         this.rectangle = new Rectangle(null, new Size(5, lineActualHeight));
         this.offsetY = offsetY + additionalYOffset;
@@ -27,13 +31,10 @@ export class MiddleLine {
     draw(context) {
         context.fillStyle = this.color;
         const location = new Point(this.canvasSize.width / 2 - this.rectangle.size.width / 2, this.offsetY / 2 + this.borderHeight);
-
         while (location.y < this.canvasSize.height) {
             context.fillRect(location.x, location.y, this.rectangle.size.width, this.rectangle.size.height);
-            console.log(location.x, location.y, this.rectangle.size.width, this.rectangle.size.height);
             location.y += this.rectangle.size.height + this.offsetY;
 
-            console.log(this.offsetY);
         }
 
 

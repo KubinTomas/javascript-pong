@@ -10,7 +10,7 @@ import { Borders } from "./models/borders.js";
 
 const workspace = document.getElementById('js-alg');
 
-const borderHeight = 90;
+const borderHeight = 20;
 
 const canvasManager = new CanvasManager();
 const canvasSize = new Size(workspace.offsetWidth, workspace.offsetHeight);
@@ -33,6 +33,7 @@ const ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, 
 
 const middleLine = new MiddleLine(canvasSizeWithoutBorder, accesoriesColor, borderHeight);
 const score = new Score(canvasSize, 80, accesoriesColor, borderHeight);
+
 
 redraw();
 
@@ -60,8 +61,24 @@ document.addEventListener('keydown', (e) => {
     else if (key === "s") {
         bat1.rectangle.location.y += 5;
     }
-    console.log(e);
-    console.log("mv i")
+
     redraw();
 
 });
+
+// window.addEventListener('resize', function (event) {
+//     const width = window.innerWidth
+//         || document.documentElement.clientWidth
+//         || document.body.clientWidth;
+
+//     const height = window.innerHeight
+//         || document.documentElement.clientHeight
+//         || document.body.clientHeight;
+
+//     workspace.width = width;
+//     workspace.height = height;
+
+//     redraw();
+
+
+// }, true);
