@@ -6,26 +6,33 @@ import { Rectangle } from "./models/rectangle.js";
 import { Size } from "./models/size.js";
 import { MiddleLine } from "./models/middle-line.js";
 import { Score } from "./models/score.js";
+import { Borders } from "./models/borders.js";
 
 const workspace = document.getElementById('js-alg');
 
+const borderHeight = 90;
+
 const canvasManager = new CanvasManager();
 const canvasSize = new Size(workspace.offsetWidth, workspace.offsetHeight);
-console.log(canvasSize);
+const canvasSizeWithoutBorder = new Size(canvasSize.width, canvasSize.height - borderHeight * 2);
+
 const canvas = canvasManager.getEmptyCanvas(new Rectangle(null, canvasSize));
 
 workspace.appendChild(canvas);
 
-const offsetX = 20;
+const accesoriesColor = "#555555";
 
-const bat1 = new Bat(new Rectangle(new Point(offsetX, 20), new Size(20, 150)), "#ecf0f1");
-const bat2 = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, 20), new Size(20, 150)), "#FFF");
+const offsetX = 20;
+const borders = new Borders(canvasSize, borderHeight, accesoriesColor);
+
+const bat1 = new Bat(new Rectangle(new Point(offsetX, borderHeight * 2), new Size(20, 150)), "#ecf0f1");
+const bat2 = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, borderHeight * 2), new Size(20, 150)), "#FFF");
 
 const ballWidth = 20;
 const ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, canvas.height / 2 - ballWidth / 2), new Size(ballWidth, ballWidth)), "white");
 
-const middleLine = new MiddleLine(canvasSize, "#555555");
-const score = new Score(canvasSize, 80, "#555555");
+const middleLine = new MiddleLine(canvasSizeWithoutBorder, accesoriesColor, borderHeight);
+const score = new Score(canvasSize, 80, accesoriesColor, borderHeight);
 
 redraw();
 
@@ -36,6 +43,7 @@ function redraw() {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
 
+    borders.draw(context);
     middleLine.draw(context);
     score.draw(context);
     bat1.draw(context);

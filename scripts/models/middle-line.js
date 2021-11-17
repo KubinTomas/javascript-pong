@@ -3,9 +3,10 @@ import { Rectangle } from "./rectangle.js";
 import { Size } from "./size.js";
 
 export class MiddleLine {
-    constructor(canvasSize, color) {
+    constructor(canvasSize, color, borderHeight) {
         this.canvasSize = canvasSize;
         this.color = color;
+        this.borderHeight = borderHeight;
 
         this.calculateSizeAndOffset();
     }
@@ -25,7 +26,7 @@ export class MiddleLine {
 
     draw(context) {
         context.fillStyle = this.color;
-        const location = new Point(this.canvasSize.width / 2 - this.rectangle.size.width / 2, this.offsetY / 2);
+        const location = new Point(this.canvasSize.width / 2 - this.rectangle.size.width / 2, this.offsetY / 2 + this.borderHeight);
 
         while (location.y < this.canvasSize.height) {
             context.fillRect(location.x, location.y, this.rectangle.size.width, this.rectangle.size.height);
