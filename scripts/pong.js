@@ -7,6 +7,7 @@ import { Size } from "./models/size.js";
 import { MiddleLine } from "./models/middle-line.js";
 import { Score } from "./models/score.js";
 import { Borders } from "./models/borders.js";
+import { Vector2D } from "./models/vector2D.js";
 
 const workspace = document.getElementById('js-alg');
 
@@ -21,12 +22,14 @@ let canvas = canvasManager.getEmptyCanvas(new Rectangle(null, canvasSize));
 workspace.appendChild(canvas);
 
 const accesoriesColor = "#555555";
+const pressedKeys = new Set();
 
 const offsetX = 20;
 let borders = new Borders(canvasSize, borderHeight, accesoriesColor);
 
-let bat1 = new Bat(new Rectangle(new Point(offsetX, borderHeight * 2), new Size(20, 150)), "#ecf0f1");
-let bat2 = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, borderHeight * 2), new Size(20, 150)), "#FFF");
+const batSpeed = 5;
+let leftBat = new Bat(new Rectangle(new Point(offsetX, borderHeight * 2), new Size(20, 150)), "#ecf0f1", batSpeed);
+let rightBat = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, borderHeight * 2), new Size(20, 150)), "#FFF", batSpeed);
 
 const ballWidth = 20;
 let ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, canvas.height / 2 - ballWidth / 2), new Size(ballWidth, ballWidth)), "white");
@@ -47,23 +50,39 @@ function redraw() {
     borders.draw(context);
     middleLine.draw(context);
     score.draw(context);
-    bat1.draw(context);
-    bat2.draw(context);
+    leftBat.draw(context);
+    rightBat.draw(context);
     ball.draw(context);
 }
 
-document.addEventListener('keydown', (e) => {
-    const key = e.key.toLowerCase();
-    if (key === "w") {
-        bat1.rectangle.location.y -= 5;
-        console.log(bat1.rectangle.location.y)
-    }
-    else if (key === "s") {
-        bat1.rectangle.location.y += 5;
-    }
+
+// player movement
+setInterval(() => {
+
+    const leftPlayerDirection = new Vector2D(0, 0);
+    const rightPlayerDirection = new Vector2D(0, 0);
+
+    leftPlayerDirection.y = pressedKeys.has("w") ? -1 : pressedKeys.has("s") ? 1 : 0;
+    rightPlayerDirection.y = pressedKeys.has("arrowup") ? -1 : pressedKeys.has("arrowdown") ? 1 : 0;
+
+    const rescriction = { topY: borderHeight, bottomY: canvasSize.height - borderHeight };
+
+    leftBat.move(leftPlayerDirection, rescriction);
+    rightBat.move(rightPlayerDirection, rescriction);
 
     redraw();
+}, 15);
 
+document.addEventListener('keyup', (e) => {
+    if (!e.repeat) {
+        pressedKeys.delete(e.key.toLowerCase());
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (!e.repeat) {
+        pressedKeys.add(e.key.toLowerCase());
+    }
 });
 
 window.addEventListener('resize', function (event) {
@@ -88,8 +107,8 @@ window.addEventListener('resize', function (event) {
 
     borders = new Borders(canvasSize, borderHeight, accesoriesColor);
 
-    bat1 = new Bat(new Rectangle(new Point(offsetX, borderHeight * 2), new Size(20, 150)), "#ecf0f1");
-    bat2 = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, borderHeight * 2), new Size(20, 150)), "#FFF");
+    leftBat = new Bat(new Rectangle(new Point(offsetX, borderHeight * 2), new Size(20, 150)), "#ecf0f1", batSpeed);
+    rightBat = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, borderHeight * 2), new Size(20, 150)), "#FFF", batSpeed);
 
     ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, canvas.height / 2 - ballWidth / 2), new Size(ballWidth, ballWidth)), "white");
 

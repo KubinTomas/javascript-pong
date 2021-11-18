@@ -7,9 +7,6 @@ export class Ball {
     draw(context) {
         context.fillStyle = this.color;
         context.fillRect(this.rectangle.location.x, this.rectangle.location.y, this.rectangle.size.width, this.rectangle.size.height);
-
-        console.log(this.rectangle)
-
     }
 
 }
