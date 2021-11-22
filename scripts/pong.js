@@ -32,13 +32,18 @@ let leftBat = new Bat(new Rectangle(new Point(offsetX, borderHeight * 2), new Si
 let rightBat = new Bat(new Rectangle(new Point(canvas.width - offsetX * 2, borderHeight * 2), new Size(20, 150)), "#FFF", batSpeed);
 
 const ballWidth = 20;
-let ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, canvas.height / 2 - ballWidth / 2), new Size(ballWidth, ballWidth)), "white");
+const ballSpeed = 0.7;
+let ball = new Ball(new Rectangle(new Point(canvas.width / 2 - ballWidth / 2, canvas.height / 2 - ballWidth / 2), new Size(ballWidth, ballWidth)), "white", getBallRandomDirection(), ballSpeed);
 
 let middleLine = new MiddleLine(canvasSizeWithoutBorder, accesoriesColor, borderHeight);
 let score = new Score(canvasSize, 80, accesoriesColor, borderHeight);
 
 
 redraw();
+
+function getBallRandomDirection() {
+    return new Vector2D((Math.random() < 0.5 ? -1 : 1), Math.floor(Math.random() * 3) + 1 * (Math.random() < 0.5 ? -1 : 1));
+}
 
 function redraw() {
     const context = canvas.getContext('2d');
@@ -72,6 +77,18 @@ setInterval(() => {
 
     redraw();
 }, 15);
+
+// ball movement
+setInterval(() => {
+
+    ball.move();
+
+    // check collision and also change direction on collison
+    ball.checkCollisionWith(borders.topBorderRectangle);
+    ball.checkCollisionWith(borders.bottomBorderRectangle);
+
+    redraw();
+}, 10);
 
 document.addEventListener('keyup', (e) => {
     if (!e.repeat) {

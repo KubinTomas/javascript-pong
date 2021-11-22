@@ -3,4 +3,8 @@ export class Rectangle {
         this.location = location;
         this.size = size;
     }
+
+    intersect(collisionRectangle) {
+        return false;
+    }
 }
