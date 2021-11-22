@@ -8,7 +8,8 @@ export class Borders {
         this.borderHeight = borderHeight;
         this.color = color;
         this.topBorderRectangle = new Rectangle(new Point(0, 0), new Size(this.canvasSize.width, this.borderHeight));
-        this.bottomBorderRectangle = new Rectangle(new Point(this.canvasSize.height - this.borderHeight, 0), new Size(this.canvasSize.width, this.borderHeight));
+        this.bottomBorderRectangle = new Rectangle(new Point(0, this.canvasSize.height - this.borderHeight), new Size(this.canvasSize.width, this.borderHeight));
+
     }
 
     draw(context) {

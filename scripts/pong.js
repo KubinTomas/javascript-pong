@@ -83,9 +83,9 @@ setInterval(() => {
 
     ball.move();
 
-    // check collision and also change direction on collison
-    ball.checkCollisionWith(borders.topBorderRectangle);
-    ball.checkCollisionWith(borders.bottomBorderRectangle);
+    // // check collision and also change direction on collison
+    // console.log(ball.checkCollisionWith(borders.topBorderRectangle),
+    //     ball.checkCollisionWith(borders.bottomBorderRectangle))
 
     redraw();
 }, 10);
